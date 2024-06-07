@@ -11,7 +11,9 @@ The goal of this lab is to assess and anlyze the current application portfolio a
 
 To start the assessment of the existing applications we will use the https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/6.0/html-single/introduction_to_the_migration_toolkit_for_applications/index[Migration Toolkit for Applications (MTA)^]. We will use _MTA_ to assess the `Customers` service based on the _Tomcat_ server on Red Hat Virtualization.
 
-Open a new browser to access the https://mta-mta-%USERID%.%SUBDOMAIN%[MTA Web Console^].
+Open a new browser to access the {mta_url}[MTA Web Console^].
+
+NOTE: For this lab the MTA Web Console is readily available at that URL. For a real world environment the console would require you to log in with valid credentials.
 
 You will see existing application inventories such as *Customers*, *Orders*, *Inventory*, and more.
 
@@ -176,7 +178,7 @@ Read more about it in the https://access.redhat.com/documentation/en-us/migratio
 
 == 2.1. Analyze Customers Application using MTA
 
-First, you need to configure *Git repositories* to refer to your link:https://gitea.%SUBDOMAIN%/%USERID%/modern-app-dev[Gitea repository^] when you analyze your inventory and applications using MTA.
+First, you need to configure *Git repositories* to refer to your link:{gitea_console_url}/modern-app-dev[Gitea repository^] when you analyze your inventory and applications using MTA.
 
 In *Administration* view, select *Repositories > Git*. `Toggle` the *Consume insecure Git repositories* switch to the right.
 
@@ -186,8 +188,8 @@ image::mta-analyze/mta-admin-git.png[admin git]
 ====
 You can also log in to the Gitea repository with the following credentials.
 
-* Username - `%USERID%`
-* Password - `{openshift-password}`
+* Username - `{gitea_user}`
+* Password - `{gitea_password}`
 ====
 
 Go back to the `Application inventory` page in the *Migration* perspective. Click on pencil (edit) icon for the customers inventory.
@@ -195,7 +197,7 @@ Go back to the `Application inventory` page in the *Migration* perspective. Clic
 Update application with the following source code information.
 
 * Repository type - `Git`
-* Source Repository - `https://gitea.%SUBDOMAIN%/%USERID%/modern-app-dev.git`
+* Source Repository - `{gitea_console_url}/modern-app-dev.git`
 * Branch - `patch-postgres`
 * Root path - `package-legacy`
 
@@ -246,7 +248,7 @@ Select `Repository` tab to refer to a custom rule (`corporate-framework-config.w
 Key in the following information in the repository page.
 
 * Repository type - `Git`
-* Source Repository - `https://gitea.%SUBDOMAIN%/%USERID%/modern-app-dev.git`
+* Source Repository - `{gitea_console_url}/modern-app-dev.git`
 * Branch - `patch-postgres`
 * Root path - `customrules`
 * Associated credentials - `None`
@@ -333,7 +335,3 @@ You can now see exactly where the issue is located in the source code.
 == Summary
 
 You have now successfully analyzed the legacy application to learn what migration issues you have. You'll refactor the application to fix the issues in the next module. Then, you'll deploy the modernized application to Red Hat OpenShift. Let's go!
-
-Please close all but the Workshop Deployer browser tab to avoid proliferation of browser tabs which can make working on other modules difficult.
-
-Go back to the `Workshop Deployer` browser tab to choose your next module!

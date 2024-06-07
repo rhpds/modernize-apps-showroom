@@ -13,7 +13,9 @@ According to the analysis report, the migration issues are related to external c
 
 image::mta-refactor/static-ip-issue.png[static-ip-issue]
 
-Let's look into the issue at the code level. In your VS Code server window, open the the `customers-tomcat-legacy` project and find `PersistenceConfig.java` file in *src/main/java/io/konveyor/demo/ordermanagement/config* directory.
+Let's look into the issue at the code level. Open up your VS Code Window by navigating to {xxx} and logging in with password {xxxx}. Your VS Code instance has already been pre-populated with the source code of the application.
+
+In your VS Code server window, open the the `customers-tomcat-legacy` project and find `PersistenceConfig.java` file in *src/main/java/io/konveyor/demo/ordermanagement/config* directory.
 
 image::mta-refactor/persistence-class.png[persistence-class]
 
@@ -151,10 +153,10 @@ In the meantime, the Globex retails system's *SRE team* has already migrated the
 The link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/1.0/html/installing_and_using_the_migration_toolkit_for_virtualization/about-mtv_mtv[Migration Toolkit for Virtualization (MTV)^] enables you to migrate virtual machines from VMware vSphere or Red Hat Virtualization to OpenShift Virtualization based on link:https://kubevirt.io[KubeVirt^]. This is an add-on to OpenShift Container Platform, enabling you to run and manage virtual machine workloads alongside container workloads.
 ====
 
-Access the link:https://console-openshift-console.%SUBDOMAIN%/topology/ns/retail-%USERID%?view=graph[Topology view^] of retail-%USERID% project in the Developer perspective. You will see the `postgresql-database` virtual machine on OpenShift.
+Access the link:{openshift_console_url}/topology/ns/retail-{openshift_cluster_user_name}?view=graph[Topology view^] of retail-{openshift_cluster_user_name} project in the Developer perspective. You will see the `postgresql-database` virtual machine on OpenShift.
 
-* Username: `%USERID%`
-* Password: `{openshift-password}`
+* Username: `{openshift_cluster_user_name}`
+* Password: `{openshift_cluster_user_password}`
 
 image::mta-refactor/retail-topology.png[comment-dep]
 
@@ -165,7 +167,7 @@ Replace the following `jdbc.url`.
 [.console-input]
 [source,properties,subs="+attributes,macros+"]
 ----
-jdbc.url=jdbc:postgresql://postgresql-database.retail-%USERID%.svc.cluster.local:5432/customers
+jdbc.url=jdbc:postgresql://postgresql-database.retail-{openshift_cluster_user_name}.svc.cluster.local:5432/customers
 ----
 
 image::mta-refactor/update-app-props.png[update-app-props]
