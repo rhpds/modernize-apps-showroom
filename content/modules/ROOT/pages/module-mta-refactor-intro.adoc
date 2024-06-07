@@ -1,0 +1,24 @@
+= Refactor - Intro
+:imagesdir: ../assets/images/
+
+++++
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-870VCFYW3Q"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-870VCFYW3Q');
+</script>
+<style>
+  .nav-container, .pagination, .toolbar {
+    display: none !important;
+  }
+  .doc {    
+    max-width: 70rem !important;
+  }
+</style>
+++++
+
+Proceed to the xref:./module-mta-refactor-instructions.adoc[instructions] for this module.

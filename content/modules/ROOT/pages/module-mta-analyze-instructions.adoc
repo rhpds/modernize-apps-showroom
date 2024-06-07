@@ -1,0 +1,359 @@
+= Assessment and Analysis - Instructions
+:imagesdir: ../assets/images/
+
+++++
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0SSSH2TQ1L"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0SSSH2TQ1L');
+</script>
+<style>
+  .nav-container, .pagination, .toolbar {
+    display: none !important;
+  }
+  .doc {    
+    max-width: 70rem !important;
+  }
+</style>
+++++
+
+== 1. Goals of this lab
+
+As part of Globex's digital transformation and cloud adoption initiative, the development and devops teams embarked upon a journey to modernize their existing siloed services running on virtual machines on Red Hat Virtualization and containerized applications on Red Hat OpenShift separately.
+
+The goal of this lab is to assess and anlyze the current application portfolio and identify potential issues and risks to implementing advanced cloud-native architectures with application modernization.
+
+== 1.1. Assessment 
+
+To start the assessment of the existing applications we will use the https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/6.0/html-single/introduction_to_the_migration_toolkit_for_applications/index[Migration Toolkit for Applications (MTA)^]. We will use _MTA_ to assess the `Customers` service based on the _Tomcat_ server on Red Hat Virtualization.
+
+Open a new browser to access the https://mta-mta-%USERID%.%SUBDOMAIN%[MTA Web Console^].
+
+You will see existing application inventories such as *Customers*, *Orders*, *Inventory*, and more.
+
+image::mta-analyze/application-inventory.png[application inventory]
+
+**MTA Application Inventory** is the vehicle which selects applications for assessment by https://github.com/konveyor/tackle-pathfinder[Tackle Pathfinder^] and analysis by https://github.com/windup/[Windup^]. It provides users four main functions:
+
+* Maintain a portfolio of applications.
+* Link applications to the business services they support.
+* Define interdependencies.
+* Add metadata using an extensible tagging model to describe and categorize applications in multiple dimensions.
+
+**Tackle Pathfinder** is an interactive questionnaire based tool that assesses the suitability of applications for modernization in order to deploy them into containers on an enterprise Kubernetes platform. The tool output includes:
+
+* An application's suitability for containerization and Kubernetes
+* A prioritized list of associated risks (based on answers to the questionnaire)
+* An Adoption plan with the application's prioritization, business criticality and dependencies.
+
+**Migration Waves management** is a small collection of workloads that deliver business value. MTA’s Migration Wave groups applications to be migrated on a specified schedule. In addition, a migration wave enables you to export a list of the wave’s applications to the Jira issue management system. This automatically creates a separate Jira issue for each application of the migration wave for tracking.
+
+For more information, see https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/6.2/html/user_interface_guide/working-with-applications-in-the-ui#mta-web-creating-migration-waves_user-interface-guide[Creating migration waves^] and https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/6.2/html/user_interface_guide/working-with-applications-in-the-ui#mta-web-creating-jira-issues-for-migration-wave_user-interface-guide[Creating Jira issues for a migration wave^].
+
+== 1.1.1. Controls
+
+*Controls* are a collection of entities that add value to Application Inventory and the Pathfinder assessment. They comprise _business services_, _stakeholders_, _stakeholder groups_, _job functions_, _tag types_, and _tags_.
+
+These controls provide useful metadata about the relationships between applications and their business stakeholders, and can be used to optimize a modernization plan across a portfolio.
+
+=== 1.1.2. Stakeholders
+
+Go to `Controls` on the left menu and you will see existing _stakeholders_ such as *Hank Scorpio* and *Homer Simpson*.
+
+image::mta-analyze/mta-control-stakeholder.png[stakeholders]
+
+You can also find the existing _stakeholder groups_ such as *IT Management* and *Retail Management* for the application assessment.
+
+image::mta-analyze/mta-stakeholder-groups.png[stakeholder-groups]
+
+=== 1.1.3. Business services
+
+Applications can be classified and grouped in multiple ways such as **business service**. We've created a business service for the legacy `Retail` applications.
+
+Go to `Controls` on the left menu and click on _Business services_ tab. You will see existing _business services_ such as *Finance and HR* and *Retail*.
+
+image::mta-analyze/mta-control-business-service.png[business service]
+
+== 1.2. Application inventory
+
+Let's focus on the legacy application. We have added tags that represent its technology such as `Java`, `Tomcat` and `PostgreSQL`, and decided to add a custom tag type that allows us to identify which custom architecture libraries are used by each application.
+
+=== 1.2.1. Confirm the Customers Application Inventory
+
+Go to `Application inventory` on the left menu in the *Migration* perspective and click on `pencil` (edit) icon for the customers application.
+
+image::mta-analyze/app-inventory-landing.png[app-inventory-landing]
+
+It shows 5 tags.
+
+* PostgreSQL
+* Java
+* Tomcat
+* Corporate Custom Configuration Library
+* RHEL 8
+
+Click on `x` button.
+
+=== 1.2.2. Assess the Legacy Customers Application
+
+The assessment is driven by a questionnaire and aims to determine the suitability for containerization for each application. It covers all the different areas of the *application landscape*, including the *technology*, *application lifecycle management*, and *operations*. This questionnaire allow the tool to identify and present potential risks that might prevent the application from running in containers or would require extra steps to mitigate the risk.
+
+One stakeholder team has already assessed the retail service to identify technical problems. However, they couldn't answer the configuration model questions during the first assessment. So they just left the answer as `Unknown` at that time.
+
+Today, you'll run the *second* assessment to choose the proper answer in the `cross-cutting concerns` section for the _customers_ application. 
+
+Click on `Assess`.
+
+image::mta-analyze/app-inventory-access.png[app-inventory-access]
+
+When you see *This application has already been assessed. Do you want to continue?* message, click on `Continue` to continue the assessment.
+
+image::mta-analyze/edit-assessment.png[edit-assessment]
+
+The first step will be to select the stakeholders (_Homer Simpson_) and Stakeholder groups (_Retail Management_) involved with the assessment. Leave the default values.
+
+image::mta-analyze/select-stakeholder.png[select-stakeholder]
+
+Click on `Next`.
+
+[NOTE]
+====
+Review the former answers in the initial assessment for each application assessment section such as `Details`, `Dependencies`, and `Observability`. You don't need to change any answers but keep clicking on `Next` button until you get into the `Application cross-cutting concerns` section.
+====
+
+image::mta-analyze/app-details.png[app-details]
+
+=== 1.2.3. Application cross-cutting concerns
+
+Choose the following answer for the *How is the application configured?* question. The team finally figured out that the customers application currently has multiple configuration files in different folders/directories, so answer accordingly:
+
+* *Question* - How is the application configured?
+* *Answer* - `Multiple configuration files in multiple file system locations`
+
+image::mta-analyze/app-cross-cutting-concerns.png[app-cross-cutting-concerns]
+
+Click on `Save and review`.
+
+== 1.3. Application Review
+
+You will be presented with the review screen. It allows you to find out which risks were identified during the assessment and decide which migration strategy to follow based those risks.
+
+image::mta-analyze/review.png[review]
+
+Scroll down the screen to view the risks. This legacy application uses a static (fixed) discovery mechanism that is not cloud-friendly, which makes sense since it comes from a classic platform and accesses a database through a *static IP*.
+
+image::mta-analyze/review-high-risk.png[review-high-risk]
+
+Now that we know we will need changes in the source code to adapt the application, we can decide that the strategy will be `Refactor`.
+
+* Proposed action: `Refactor`
+* Effort estimate: `Small`
+
+Since this is a key application in the architecture, we're going to set the criticality to `10` and priority to `9`.
+
+* Business criticality: `10`
+* Work priority: `9`
+
+Click on `Submit Review`.
+
+image::mta-analyze/submit-review.png[submit-review]
+
+At this point you have completed the 2nd assessment to update the `Application cross-cutting concerns` section. You have also identified a new `high` risk along with the external configuration references and dependencies.
+
+image::mta-analyze/complete-review.png[complete-review]
+
+Go to `Report` on the left menu. There you will be able to access the report details such as _Current landscape_, _Adoption candidate distribution_, _Suggested adoption plan_, and _Identified risks_.
+
+image::mta-analyze/report-review.png[report-review]
+
+*Congratulations!* You have now successfully begun the modernization process by assessing the current application portfolio and you identified issues and risks that will need to be considered in the next step: application analysis and code modification as part of modernization.
+
+Read more about use cases and migration paths at https://developers.redhat.com/products/mta/use-cases[Migration Toolkit for Applications^].
+
+== 2. Analyze
+
+As you have realized in the previous *assessment* exercise, you need to analyze the legacy applications in terms of identifying the actual lines of code for the modernization issues as well as estimating time and effort for the modernization project.
+
+The goal of this exercise is to analyze the _customers_ application by scanning its source code and properties using the `Analysis` capability in MTA. Then you'll review the analysis report and get started with the actual code modification.
+
+MTA _Analysis_ is used by organizations for:
+
+* Planning and work estimation
+* Identifying migration issues and providing solutions
+* Detailed reporting
+
+And has several capabilities such as:
+
+* Built-in rules and migration paths
+* Rule extensibility and customization
+* Ability to analyze source code or application archives
+
+Read more about it in the https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/6.0/html-single/introduction_to_the_migration_toolkit_for_applications/index#new-mta-features_getting-started-guide[MTA Features]
+
+== 2.1. Analyze Customers Application using MTA
+
+First, you need to configure *Git repositories* to refer to your link:https://gitea.%SUBDOMAIN%/%USERID%/modern-app-dev[Gitea repository^] when you analyze your inventory and applications using MTA.
+
+In *Administration* view, select *Repositories > Git*. `Toggle` the *Consume insecure Git repositories* switch to the right.
+
+image::mta-analyze/mta-admin-git.png[admin git]
+
+[NOTE]
+====
+You can also log in to the Gitea repository with the following credentials.
+
+* Username - `%USERID%`
+* Password - `{openshift-password}`
+====
+
+Go back to the `Application inventory` page in the *Migration* perspective. Click on pencil (edit) icon for the customers inventory.
+
+Update application with the following source code information.
+
+* Repository type - `Git`
+* Source Repository - `https://gitea.%SUBDOMAIN%/%USERID%/modern-app-dev.git`
+* Branch - `patch-postgres`
+* Root path - `package-legacy`
+
+image::mta-analyze/application-update-git.png[application-update-git]
+
+Select `Save`.
+
+Select the `Analysis` tab. When you click on the `Customers` application, `Analyze` button will be enabled. Then, click on *Analyze*.
+
+image::mta-analyze/application-analysis.png[application-analysis]
+
+=== 2.2. Analysis mode
+
+Select `Source dode` in Analysis mode popup.
+
+image::mta-analyze/add-applications.png[Add applications]
+
+Click on `Next`.
+
+=== 2.3. Set targets
+
+You will now be presented with options for transformation targets. Here we will select several targets based on the technologies we are moving to:
+
+Since this is going to be a linux container, it makes sense to do a sanity check to avoid things like Windows filesystem paths and other non-container- or non-Linux-friendly issues. We also going to investigate removing our reliance on a proprietary JDK distribution, so we going to select OpenJDK as a target.
+
+Click on `Containers`, `Linux`, and `OpenJDK` as the targets.
+
+image::mta-analyze/configure-analysis-checked.png[Configure Analysis]
+
+Click on `Next`.
+
+Select `Application and internal dependencies only` for the scope of dependencies.
+
+image::mta-analyze/packages.png[Select packages]
+
+Click on `Next`.
+
+=== 2.4. Advanced
+
+You will now be presented with options for custom rules.
+
+image::mta-analyze/custom-rules.png[Custom rules]
+
+MTA Analysis uses a custom rule engine for the analysis. It comes with many rules out of the box to support the different migration paths, but it can be extended. Custom rules can be developed with a very simple XML syntax and used as part of the analysis. We've provided some custom rules which will detect the usage of a specific library that we know has been used at Globex in the past and make suggestions for changes to be performed to remove it.
+
+Select `Repository` tab to refer to a custom rule (`corporate-framework-config.windup.xml`) in the *customrules* directory of your Gitea repository.
+
+Key in the following information in the repository page.
+
+* Repository type - `Git`
+* Source Repository - `https://gitea.%SUBDOMAIN%/%USERID%/modern-app-dev.git`
+* Branch - `patch-postgres`
+* Root path - `customrules`
+* Associated credentials - `None`
+
+[NOTE]
+====
+In case you don't see `None` in the `Associated credentials`, please leave it since the field is not mandatory.
+====
+
+image::mta-analyze/add-repository-customrules.png[add-repository-customrules]
+
+Click on `Next`.
+
+Next, you will be presented with options to fine tune the analysis. For now we will stick with the default options.
+
+image::mta-analyze/fine-tune.png[Fine tuning]
+
+Click on `Next`.
+
+Lastly, we are presented with a summary of the configuration for our analysis.
+
+image::mta-analyze/finish-project.png[Finish project]
+
+Click on `Run`.
+
+The analysis begins, and once it is finished you will be able to access the reports. Stay on this view until the analysis is finished.
+
+Once it finishes, select *Customers* application. Then click on `Report` in the *Reports* tab on the right.
+
+[NOTE]
+====
+The analysis may take a few minutes as it must pull container images for Windup before executing the analysis.
+====
+
+image::mta-analyze/active-analysis.png[Active analysis]
+
+== 2.5. Understanding the report
+
+The Dashboard gives an overview of the entire application migration effort. It summarizes:
+
+* The incidents and story points by category
+* The incidents and story points by level of effort of the suggested changes
+* The incidents by package
+
+[NOTE]
+Story points are an abstract metric commonly used in Agile software development to estimate the relative level of effort needed to implement a feature or change. Migration Toolkit for Application uses story points to express the level of effort needed to migrate particular application constructs, and the application as a whole. The level of effort will vary greatly depending on the size and complexity of the application(s) to migrate.
+
+Once the report is finished, click on the link to access the report. Click on `customers-tomcat.war` application.
+
+image::mta-analyze/report-view.png[View report]
+
+The reports provide all kinds of information about the application, like the technologies it uses, dependencies, but most importantly issues that need to get fixed.
+
+image::mta-analyze/report-dashboard.png[report dashboard]
+
+Click on the `Issues` tab.
+
+This view shows us the list of issues that could prevent an application to successfully run on the target runtime. We can see that the application has a few mandatory issues that need to be addressed.
+
+Click on `Hard coded IP address`.
+
+By choosing the issue we can see where it was detected and view a hint on how to solve it.  It looks like the config files are pointing to some static IPs. That's not good in a cloud / container environment!
+
+image::mta-analyze/report-hint.png[report hint]
+
+Click on `File system issue`.
+
+It looks like a problem has been detected on some class coming from the config library. We are analyzing the binary, so the dependencies have been analyzed as well.
+
+image::mta-analyze/report-hint-fs.png[report hint file system]
+
+Click on `Legacy configuration issue`.
+
+It looks like the custom rule got triggered and found some issues with the source code.  This rule detects the use of a custom configuration library and gives some hints about what needs to be done to fix it.
+
+image::mta-analyze/report-hint-custom.png[report hint custom rule]
+
+Click on the `io.konveyor.demo.ordermanagement.config.PersistenceConfig` file.
+
+image::mta-analyze/report-code.png[report code]
+
+You can now see exactly where the issue is located in the source code.
+
+== Summary
+
+You have now successfully analyzed the legacy application to learn what migration issues you have. You'll refactor the application to fix the issues in the next module. Then, you'll deploy the modernized application to Red Hat OpenShift. Let's go!
+
+Please close all but the Workshop Deployer browser tab to avoid proliferation of browser tabs which can make working on other modules difficult. 
+
+Go back to the `Workshop Deployer` browser tab to choose your next module!

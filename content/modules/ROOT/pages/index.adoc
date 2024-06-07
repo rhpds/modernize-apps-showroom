@@ -1,0 +1,28 @@
+= {lab_name}
+
+++++
+<br>
+<h4><i>Discover the art of the possible.</i></h4>
+<br>
+<style>
+  .nav-container, .pagination, .toolbar {
+    display: none !important;
+  }
+  .doc {
+    max-width: 70rem !important;
+  }
+</style>
+++++
+
+The `Modern Application Development` (MAD) Roadshow is the premier hands-on experience for developers, operations, and business leaders to learn how Red Hat's technologies help them build, run, and manage their applications in the Hybrid Cloud.
+
+This workshop consists of a number different modules, each highlighting a particular use case, development principle or technology. The modules have a common overarching story, revolving around the e-commerce site of a fictitious retail company called Globex.
+
+Globex has undergone significant modernization and they are keen to build on their application (called `coolstore`) modernization efforts to rapidly build new functionalities. The workshop helps you navigate through each of these functionalities through a number of modules focusing on one particular use case.
+
+The workshop allows you to quickly pick a set of `opinionated custom paths` through the modules based on high-level needs, and then customize it to suit, or create a completely custom path of their own. Over time, we can use the popularity of choices made by the field to refine the options presented.
+
+The modules are independent from each other and can be taken in any combination or order. Each module consists of an introduction and an instructions section.
+
+* The `intro` details the overview and business problem we are trying to solve, possible solutions, a technical overview of the proposed solution and other background information.
+* The `instructions` provide details step-by-step details to guide you through the workshop.
