@@ -1,4 +1,2 @@
-* xref:module-mta-analyze-intro.adoc[Assessment and Analysis - Intro]
-* xref:module-mta-analyze-instructions.adoc[Assessment and Analysis - Instructions]
-* xref:module-mta-refactor-intro.adoc[Refactor - Intro]
-* xref:module-mta-refactor-instructions.adoc[Refactor - Instructions]
+* xref:module-mta-analyze-instructions.adoc[Assessment and Analysis]
+* xref:module-mta-refactor-instructions.adoc[Refactor]

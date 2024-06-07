@@ -1,26 +1,6 @@
 = Refactor - Instructions
 :imagesdir: ../assets/images/
 
-++++
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-870VCFYW3Q"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-870VCFYW3Q');
-</script>
-<style>
-  .nav-container, .pagination, .toolbar {
-    display: none !important;
-  }
-  .doc {    
-    max-width: 70rem !important;
-  }
-</style>
-++++
-
 == 1. Goals of this lab
 
 The goal of this lab is to understand the modernization issues related to the `customers` application that you found in the previous exercise and learn how you can resolve them by code modification. The MTA Analysis report also provides the details in terms of the *file name*, *path*, and *solution recommendations* for each issue.
@@ -422,8 +402,8 @@ The output should look like this.
 ----
 --> Found image de5b7ae (5 weeks old) in image stream "openshift/jboss-webserver57-openjdk11-tomcat9-openshift-ubi8" under tag "latest" for "jboss-webserver57-openjdk11-tomcat9-openshift-ubi8:latest"
 
-    JBoss Web Server 5.7 OpenJDK11 
-    ------------------------------ 
+    JBoss Web Server 5.7 OpenJDK11
+    ------------------------------
     Platform for building and running web applications on JBoss Web Server 5.7 with OpenJDK11 - Tomcat v9
 
     Tags: builder, java, tomcat9
@@ -487,8 +467,8 @@ The output should look like this.
 ----
 --> Found image 50f873a (15 seconds old) in image stream "customers-qa-user1/customers" under tag "latest" for "customers"
 
-    JBoss Web Server 5.7 OpenJDK11 
-    ------------------------------ 
+    JBoss Web Server 5.7 OpenJDK11
+    ------------------------------
     Platform for building and running web applications on JBoss Web Server 5.7 with OpenJDK11 - Tomcat v9
 
     Tags: builder, java, tomcat9
@@ -499,7 +479,7 @@ The output should look like this.
     service "customers" created
 --> Success
     Application is not exposed. You can expose services to the outside world by executing one or more of the commands below:
-     'oc expose service/customers' 
+     'oc expose service/customers'
     Run 'oc status' to view your app.
 ----
 
@@ -513,7 +493,7 @@ oc label deployment/customers app.openshift.io/runtime=rh-tomcat
 
 == 2.6. Verify the new customers application
 
-`Congratulations!` You just deployed a new *customers* application successfully to the OpenShift cluster. 
+`Congratulations!` You just deployed a new *customers* application successfully to the OpenShift cluster.
 
 * Access link:https://console-openshift-console.%SUBDOMAIN%/topology/ns/customers-qa-%USERID%?view=graph[Topology view^] if the application is running in the customers-qa-%USERID% project.
 
@@ -551,6 +531,6 @@ This shows that the newly-modernized application running on OpenShift can succes
 
 *Congratulations!* You have now successfully remediated all the migration issues you have found and refactored the legacy application.
 
-Please close all but the Workshop Deployer browser tab to avoid proliferation of browser tabs which can make working on other modules difficult. 
+Please close all but the Workshop Deployer browser tab to avoid proliferation of browser tabs which can make working on other modules difficult.
 
 Go back to the `Workshop Deployer` browser tab to choose your next module!

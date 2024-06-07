@@ -1,33 +1,13 @@
 = Assessment and Analysis - Instructions
 :imagesdir: ../assets/images/
 
-++++
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-0SSSH2TQ1L"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-0SSSH2TQ1L');
-</script>
-<style>
-  .nav-container, .pagination, .toolbar {
-    display: none !important;
-  }
-  .doc {    
-    max-width: 70rem !important;
-  }
-</style>
-++++
-
 == 1. Goals of this lab
 
 As part of Globex's digital transformation and cloud adoption initiative, the development and devops teams embarked upon a journey to modernize their existing siloed services running on virtual machines on Red Hat Virtualization and containerized applications on Red Hat OpenShift separately.
 
 The goal of this lab is to assess and anlyze the current application portfolio and identify potential issues and risks to implementing advanced cloud-native architectures with application modernization.
 
-== 1.1. Assessment 
+== 1.1. Assessment
 
 To start the assessment of the existing applications we will use the https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/6.0/html-single/introduction_to_the_migration_toolkit_for_applications/index[Migration Toolkit for Applications (MTA)^]. We will use _MTA_ to assess the `Customers` service based on the _Tomcat_ server on Red Hat Virtualization.
 
@@ -104,7 +84,7 @@ The assessment is driven by a questionnaire and aims to determine the suitabilit
 
 One stakeholder team has already assessed the retail service to identify technical problems. However, they couldn't answer the configuration model questions during the first assessment. So they just left the answer as `Unknown` at that time.
 
-Today, you'll run the *second* assessment to choose the proper answer in the `cross-cutting concerns` section for the _customers_ application. 
+Today, you'll run the *second* assessment to choose the proper answer in the `cross-cutting concerns` section for the _customers_ application.
 
 Click on `Assess`.
 
@@ -354,6 +334,6 @@ You can now see exactly where the issue is located in the source code.
 
 You have now successfully analyzed the legacy application to learn what migration issues you have. You'll refactor the application to fix the issues in the next module. Then, you'll deploy the modernized application to Red Hat OpenShift. Let's go!
 
-Please close all but the Workshop Deployer browser tab to avoid proliferation of browser tabs which can make working on other modules difficult. 
+Please close all but the Workshop Deployer browser tab to avoid proliferation of browser tabs which can make working on other modules difficult.
 
 Go back to the `Workshop Deployer` browser tab to choose your next module!
