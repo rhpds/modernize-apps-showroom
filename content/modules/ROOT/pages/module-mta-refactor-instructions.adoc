@@ -13,7 +13,7 @@ According to the analysis report, the migration issues are related to external c
 
 image::mta-refactor/static-ip-issue.png[static-ip-issue]
 
-Let's look into the issue at the code level. Open up your VS Code Window by navigating to {codeserver_url} and logging in with password {codeserver_password}. Your VS Code instance has already been pre-populated with the source code of the application.
+Let's look into the issue at the code level. Open up your VS Code Window by navigating to {codeserver_url} and logging in with password `{codeserver_password}`. Your VS Code instance has already been pre-populated with the source code of the application.
 
 In your VS Code server window, open the the `customers-tomcat-legacy` project and find `PersistenceConfig.java` file in *src/main/java/io/konveyor/demo/ordermanagement/config* directory.
 
@@ -150,8 +150,8 @@ In the meantime, the Globex retails system's *SRE team* has already migrated the
 
 Access the link:{openshift_console_url}/topology/ns/retail?view=graph[Topology view^] of the retail project in the Developer perspective. You will see the `postgresql-database` deployment on OpenShift.
 
-* Username: `{openshift_cluster_user_name}`
-* Password: `{openshift_cluster_user_password}`
+* Username: `{openshift_cluster_admin_username}`
+* Password: `{openshift_cluster_admin_password}`
 
 image::mta-refactor/retail-topology.png[comment-dep]
 
@@ -352,7 +352,7 @@ You will:
 In case you haven't already logged in to the OpenShift cluster, run the following `oc` command in VS Code server terminal.
 
 [.console-input]
-[source,bash]
+[source,bash,subs="attributes",role=execute]
 ----
 oc login -u {openshift_cluster_admin_username} -p {openshift_cluster_admin_password} https://openshift.default.svc:443
 ----
@@ -361,7 +361,7 @@ oc login -u {openshift_cluster_admin_username} -p {openshift_cluster_admin_passw
 Create a new project in the OpenShift cluster to deploy our newly-modernized application, *customers*. Run the following command in the terminal.
 
 [.console-input]
-[source,bash,subs="+attributes,macros+"]
+[source,bash,subs="attributes",role=execute]
 ----
 oc new-project customers-qa
 ----
@@ -371,7 +371,7 @@ oc new-project customers-qa
 Create a directory for the binary build on your local file system and the `deployments/` subdirectory. Copy the WAR archive to `deployments/` directory by running the following commands in the terminal:
 
 [.console-input]
-[source,bash,subs="+attributes,macros+"]
+[source,bash,subs="attributes",role=execute]
 ----
 cd $HOME/modern-app-dev/customers-tomcat-legacy
 
@@ -385,7 +385,7 @@ cp target/customers-tomcat-0.0.1-SNAPSHOT.war ocp/deployments/
 Create a new build configuration, specifying image stream and application name. Run the following command in the terminal to do this:
 
 [.console-input]
-[source,bash,subs="+attributes,macros+"]
+[source,bash,subs="attributes",role=execute]
 ----
 oc new-build --binary=true \
  --image-stream=jboss-webserver57-openjdk11-tomcat9-openshift-ubi8:latest \
@@ -395,7 +395,7 @@ oc new-build --binary=true \
 The output should look like this.
 
 [.console-output]
-[source,bash,subs="+attributes,macros+"]
+[source,bash,subs="attributes",role=execute]
 ----
 --> Found image de5b7ae (5 weeks old) in image stream "openshift/jboss-webserver57-openjdk11-tomcat9-openshift-ubi8" under tag "latest" for "jboss-webserver57-openjdk11-tomcat9-openshift-ubi8:latest"
 
@@ -422,7 +422,7 @@ Start the binary build based on that build configuration just created. Instruct 
 Run the following command in the terminal to start the build:
 
 [.console-input]
-[source,bash,subs="+attributes,macros+"]
+[source,bash,subs="attributes",role=execute]
 ----
 oc start-build customers --from-dir=./ocp --follow
 ----
@@ -430,7 +430,7 @@ oc start-build customers --from-dir=./ocp --follow
 The output should end up with this.
 
 [.console-output]
-[source,bash,subs="+attributes,macros+"]
+[source,bash,subs="attributes",role=execute]
 ----
 ....
 Pushing image image-registry.openshift-image-registry.svc:5000/customers-qa--%USERID%/customers:latest ...
@@ -452,7 +452,7 @@ Push successful
 Create a new OpenShift application based on the newly-built container image. Run the following command in the terminal.
 
 [.console-input]
-[source,bash,subs="+attributes,macros+"]
+[source,bash,subs="attributes",role=execute]
 ----
 oc new-app customers
 ----
@@ -460,7 +460,7 @@ oc new-app customers
 The output should look like this.
 
 [.console-output]
-[source,bash,subs="+attributes,macros+"]
+[source,bash,subs="attributes",role=execute]
 ----
 --> Found image 50f873a (15 seconds old) in image stream "customers-qa-user1/customers" under tag "latest" for "customers"
 
@@ -483,7 +483,7 @@ The output should look like this.
 You can add the following label to show the application running on the JBoss Web Server. Run the following command in the terminal.
 
 [.console-input]
-[source,bash,subs="+attributes,macros+"]
+[source,bash,subs="attributes",role=execute]
 ----
 oc label deployment/customers app.openshift.io/runtime=rh-tomcat
 ----
@@ -492,11 +492,9 @@ oc label deployment/customers app.openshift.io/runtime=rh-tomcat
 
 `Congratulations!` You just deployed a new *customers* application successfully to the OpenShift cluster.
 
-* Access link:https://console-openshift-console.%SUBDOMAIN%/topology/ns/customers-qa-%USERID%?view=graph[Topology view^] if the application is running in the customers-qa-%USERID% project.
+* Access link:{openshift_console_url}/topology/ns/customers-qa?view=graph[Topology view^] if the application is running in the customers-qa project.
 
-Use the following credentials if you haven't logged in to the OpenShift cluster before. OpenShift is already integrated with https://access.redhat.com/products/red-hat-single-sign-on/[Red Hat Single Sign On^].
-
-image::mta-refactor/sso_login.png[openshift_login]
+Use the following credentials if you haven't logged in to the OpenShift cluster before.
 
 * Login using your credentials:
 
@@ -526,7 +524,3 @@ This shows that the newly-modernized application running on OpenShift can succes
 == Summary
 
 *Congratulations!* You have now successfully remediated all the migration issues you have found and refactored the legacy application.
-
-Please close all but the Workshop Deployer browser tab to avoid proliferation of browser tabs which can make working on other modules difficult.
-
-Go back to the `Workshop Deployer` browser tab to choose your next module!
