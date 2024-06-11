@@ -231,8 +231,6 @@ Click on `Next`.
 
 Select `Application and internal dependencies only` for the scope of dependencies.
 
-image::mta-analyze/packages.png[Select packages]
-
 Click on `Next`.
 
 === 2.4. Advanced

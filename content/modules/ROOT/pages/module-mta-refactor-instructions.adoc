@@ -150,8 +150,8 @@ In the meantime, the Globex retails system's *SRE team* has already migrated the
 
 Access the link:{openshift_console_url}/topology/ns/retail?view=graph[Topology view^] of the retail project in the Developer perspective. You will see the `postgresql-database` deployment on OpenShift.
 
-* Username: `{openshift_cluster_admin_username}`
-* Password: `{openshift_cluster_admin_password}`
+* Username: `{openshift_cluster_user_name}`
+* Password: `{openshift_cluster_user_password}`
 
 image::mta-refactor/retail-topology.png[comment-dep]
 
@@ -229,7 +229,7 @@ image::mta-refactor/gitea-commit.png[gitea-commit]
 
 == 1.11. Re-run MTA Analysis
 
-Go back to the link:https://mta-mta-%USERID%.%SUBDOMAIN%/applications/analysis-tab[MTA Analysis web console^] and create a new inventory element to analyze the modernized application (*customers*).
+Go back to the link:{mta_url}/applications/analysis-tab[MTA Analysis web console^] and create a new inventory element to analyze the modernized application (*customers*).
 
 Click on `Create new`.
 
@@ -263,7 +263,7 @@ image::mta-refactor/mta-admin-git.png[admin git]
 You can also log in to the Gitea repository with the following credentials.
 
 * Username - `{gitea_user}`
-* Password - `{openshift-password}`
+* Password - `{gitea_password}`
 ====
 
 Select `Source dode` in Analysis mode popup.
@@ -279,8 +279,6 @@ image::mta-refactor/configure-analysis-checked.png[Configure Analysis]
 Click on `Next`.
 
 Select `Application and internal dependencies only` for the scope of dependencies.
-
-image::mta-refactor/packages.png[Select packages]
 
 Click on `Next`.
 
@@ -354,7 +352,7 @@ In case you haven't already logged in to the OpenShift cluster, run the followin
 [.console-input]
 [source,bash,subs="attributes",role=execute]
 ----
-oc login -u {openshift_cluster_admin_username} -p {openshift_cluster_admin_password} https://openshift.default.svc:443
+oc login -u {openshift_cluster_user_name} -p {openshift_cluster_user_password} https://openshift.default.svc:443
 ----
 ====
 
@@ -498,8 +496,8 @@ Use the following credentials if you haven't logged in to the OpenShift cluster 
 
 * Login using your credentials:
 
-** Username: `{openshift_cluster_admin_username}`
-** Password: `{openshift_cluster_admin_password}`
+** Username: `{openshift_cluster_user_name}`
+** Password: `{openshift_cluster_user_password}`
 
 image::mta-refactor/customers-qa-topology.png[customers-qa-topology]
 
