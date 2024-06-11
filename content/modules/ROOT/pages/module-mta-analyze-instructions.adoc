@@ -178,7 +178,7 @@ Read more about it in the https://access.redhat.com/documentation/en-us/migratio
 
 == 2.1. Analyze Customers Application using MTA
 
-First, you need to configure *Git repositories* to refer to your link:{gitea_console_url}/modern-app-dev[Gitea repository^] when you analyze your inventory and applications using MTA.
+First, you need to configure *Git repositories* to refer to your link:{gitea_console_url}/{gitea_user}/modern-app-dev[Gitea repository^] when you analyze your inventory and applications using MTA.
 
 In *Administration* view, select *Repositories > Git*. `Toggle` the *Consume insecure Git repositories* switch to the right.
 
@@ -197,7 +197,7 @@ Go back to the `Application inventory` page in the *Migration* perspective. Clic
 Update application with the following source code information.
 
 * Repository type - `Git`
-* Source Repository - `{gitea_console_url}/modern-app-dev.git`
+* Source Repository - `{gitea_console_url}/{gitea_user}/modern-app-dev.git`
 * Branch - `patch-postgres`
 * Root path - `package-legacy`
 
@@ -211,7 +211,7 @@ image::mta-analyze/application-analysis.png[application-analysis]
 
 === 2.2. Analysis mode
 
-Select `Source dode` in Analysis mode popup.
+Select `Source code` in Analysis mode popup.
 
 image::mta-analyze/add-applications.png[Add applications]
 
@@ -248,7 +248,7 @@ Select `Repository` tab to refer to a custom rule (`corporate-framework-config.w
 Key in the following information in the repository page.
 
 * Repository type - `Git`
-* Source Repository - `{gitea_console_url}/modern-app-dev.git`
+* Source Repository - `{gitea_console_url}/{gitea_user}/modern-app-dev.git`
 * Branch - `patch-postgres`
 * Root path - `customrules`
 * Associated credentials - `None`

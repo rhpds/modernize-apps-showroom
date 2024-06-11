@@ -13,7 +13,7 @@ According to the analysis report, the migration issues are related to external c
 
 image::mta-refactor/static-ip-issue.png[static-ip-issue]
 
-Let's look into the issue at the code level. Open up your VS Code Window by navigating to {xxx} and logging in with password {xxxx}. Your VS Code instance has already been pre-populated with the source code of the application.
+Let's look into the issue at the code level. Open up your VS Code Window by navigating to {codeserver_url} and logging in with password {codeserver_password}. Your VS Code instance has already been pre-populated with the source code of the application.
 
 In your VS Code server window, open the the `customers-tomcat-legacy` project and find `PersistenceConfig.java` file in *src/main/java/io/konveyor/demo/ordermanagement/config* directory.
 
@@ -146,28 +146,23 @@ image::mta-refactor/comment-dep.png[comment-dep]
 
 == 1.8. Update application.properties
 
-In the meantime, the Globex retails system's *SRE team* has already migrated the `PostgreSQL database` running from the virtual machine on `Red Hat Virtualization` to `OpenShift Virtualization` based on KubeVirt.
+In the meantime, the Globex retails system's *SRE team* has already migrated the `PostgreSQL database` running from the virtual machine on `Red Hat Virtualization` to a proper Kubernetes application.
 
-[TIP]
-====
-The link:https://access.redhat.com/documentation/en-us/migration_toolkit_for_virtualization/1.0/html/installing_and_using_the_migration_toolkit_for_virtualization/about-mtv_mtv[Migration Toolkit for Virtualization (MTV)^] enables you to migrate virtual machines from VMware vSphere or Red Hat Virtualization to OpenShift Virtualization based on link:https://kubevirt.io[KubeVirt^]. This is an add-on to OpenShift Container Platform, enabling you to run and manage virtual machine workloads alongside container workloads.
-====
-
-Access the link:{openshift_console_url}/topology/ns/retail-{openshift_cluster_user_name}?view=graph[Topology view^] of retail-{openshift_cluster_user_name} project in the Developer perspective. You will see the `postgresql-database` virtual machine on OpenShift.
+Access the link:{openshift_console_url}/topology/ns/retail?view=graph[Topology view^] of the retail project in the Developer perspective. You will see the `postgresql-database` deployment on OpenShift.
 
 * Username: `{openshift_cluster_user_name}`
 * Password: `{openshift_cluster_user_password}`
 
 image::mta-refactor/retail-topology.png[comment-dep]
 
-In VSCode, Open the `persistence.properties` in the *src/main/resources* folder to access the *customers* data in the new *postgresql-database* virtual machine on OpenShift.
+In VSCode, Open the `persistence.properties` in the *src/main/resources* folder to access the *customers* data in the new *postgresql-database* application on OpenShift.
 
 Replace the following `jdbc.url`.
 
 [.console-input]
 [source,properties,subs="+attributes,macros+"]
 ----
-jdbc.url=jdbc:postgresql://postgresql-database.retail-{openshift_cluster_user_name}.svc.cluster.local:5432/customers
+jdbc.url=jdbc:postgresql://postgresql-database.retail.svc.cluster.local:5432/customers
 ----
 
 image::mta-refactor/update-app-props.png[update-app-props]
@@ -228,7 +223,7 @@ image::mta-refactor/sync-changes.png[sync-changes]
 You might see *Would you like code-server to periodically run "git fetch"?* popup message on the right bottom. Then, you can ignore it.
 ====
 
-If you go back to your link:https://gitea.%SUBDOMAIN%/%USERID%/modern-app-dev/src/branch/patch-postgres[Gitea repository^], you will see the commit. Make sure that you're referring to the *patch-postgres* branch.
+If you go back to your link:{gitea_console_url}/{gitea_user}/modern-app-dev/src/branch/patch-postgres[Gitea repository^], you will see the commit. Make sure that you're referring to the *patch-postgres* branch.
 
 image::mta-refactor/gitea-commit.png[gitea-commit]
 
@@ -249,7 +244,7 @@ Fill in the following fields, and click `Create`:
 
 * Source code:
 ** Repository type - `Git`
-** Source Repository - `https://gitea.%SUBDOMAIN%/%USERID%/modern-app-dev.git`
+** Source Repository - `{gitea_console_url}/{gitea_user}/modern-app-dev`
 ** Branch - `patch-postgres`
 ** Root path - `customers-tomcat-legacy`
 
@@ -267,7 +262,7 @@ image::mta-refactor/mta-admin-git.png[admin git]
 
 You can also log in to the Gitea repository with the following credentials.
 
-* Username - `%USERID%`
+* Username - `{gitea_user}`
 * Password - `{openshift-password}`
 ====
 
@@ -298,7 +293,7 @@ Select `Repository` tab to refer to a custom rule (`corporate-framework-config.w
 Key in the following information in the repository page.
 
 * Repository type - `Git`
-* Source Repository - `https://gitea.%SUBDOMAIN%/%USERID%/modern-app-dev.git`
+* Source Repository - `{gitea_console_url}/{gitea_user}/modern-app-dev`
 * Branch - `patch-postgres`
 * Root path - `customrules`
 * Associated credentials - `None`
@@ -359,7 +354,7 @@ In case you haven't already logged in to the OpenShift cluster, run the followin
 [.console-input]
 [source,bash]
 ----
-oc login -u %USERID% -p openshift https://openshift.default.svc:443
+oc login -u {openshift_cluster_admin_username} -p {openshift_cluster_admin_password} https://openshift.default.svc:443
 ----
 ====
 
@@ -368,7 +363,7 @@ Create a new project in the OpenShift cluster to deploy our newly-modernized app
 [.console-input]
 [source,bash,subs="+attributes,macros+"]
 ----
-oc new-project customers-qa-%USERID%
+oc new-project customers-qa
 ----
 
 == 2.2. Prepare the directory structure
@@ -505,9 +500,8 @@ image::mta-refactor/sso_login.png[openshift_login]
 
 * Login using your credentials:
 
-** Username: `%USERID%`
-** Password: `{openshift-password}`
-
+** Username: `{openshift_cluster_admin_username}`
+** Password: `{openshift_cluster_admin_password}`
 
 image::mta-refactor/customers-qa-topology.png[customers-qa-topology]
 
@@ -516,7 +510,7 @@ Access the following RESTful API of the customers application to retrieve the cu
 [.console-input]
 [source,bash]
 ----
-curl http://customers.customers-qa-%USERID%.svc.cluster.local:8080/customers-tomcat-0.0.1-SNAPSHOT/customers/1 ; echo
+curl http://customers.customers-qa.svc.cluster.local:8080/customers-tomcat-0.0.1-SNAPSHOT/customers/1 ; echo
 ----
 
 The output should look like this.
