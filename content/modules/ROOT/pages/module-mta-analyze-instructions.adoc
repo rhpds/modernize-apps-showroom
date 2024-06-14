@@ -69,7 +69,7 @@ image::mta-analyze/mta-archetypes-inventory-customers-tags.png[inventory]
 
 These controls provide useful metadata about the relationships between applications and their business stakeholders, and can be used to optimize a modernization plan across a portfolio.
 
-=== 2.4. Stakeholders
+=== 2.3.1 Stakeholders
 
 Go to `Controls` on the left menu and you will see existing _Stakeholders_ such as *Borja Cavan* and *Brendon Hayes*.
 
@@ -79,7 +79,7 @@ You can also find the existing _Stakeholder groups_ such as *IT Management* and 
 
 image::mta-analyze/mta-stakeholder-groups.png[stakeholder-groups]
 
-=== 2.5. Business services
+=== 2.3.2 Business services
 
 The simplest way to classify applications is through business services that represent the different business verticals or divisions that an organization might have.
 
@@ -88,7 +88,7 @@ Go to `Controls` on the left menu and click on _Business services_ tab. You will
 image::mta-analyze/mta-control-business-service.png[business service]
 
 
-=== 3. Assessing the Summer Framework archetype
+== 3. Assessing the Summer Framework archetype
 
 The **Assessment module** provides a high level overview of a given application or archetype through the usage of questionnaires. The tool ships with a _Containerization_ questionnaire out of the box, with more curated questionnaires coming up in subsequent releases. The _Containerization_ questionnaire aims to determine the suitability for containerization for each application. It covers all the different areas of the *application landscape*, including the *technology*, *application lifecycle management*, and *operations*. This questionnaire allow the tool to identify and present potential risks that might prevent an application from running in containers or would require extra steps to mitigate the risk.
 
@@ -150,7 +150,7 @@ image::mta-analyze/mta-assessment-app-cross-cutting-concerns.png[app-cross-cutti
 
 Click on `Save and review`.
 
-== 3.3. Application Review
+=== 3.3. Application Review
 
 You will be presented with the review screen. It allows you to find out which risks were identified during the assessment and decide which migration strategy to follow based those risks.
 
@@ -198,7 +198,7 @@ Read more about use cases and migration paths at https://developers.redhat.com/p
 
 == 4. Analyzing the Customers application
 
-MTA proves an analysis engine capable of static code analysis against both source code and binaries. The _Analysis Module_ provides insights on the dependencies and technology stack of applications, aside from identifying potential issues that might prevent an application from running on a target platform.
+MTA includes an analysis engine capable of static code analysis against both source code and binaries. The _Analysis Module_ provides insights on the dependencies and technology stack of applications, aside from identifying potential issues that might prevent an application from running on a target platform.
 
 As you have realized in the previous *assessment* exercise, you need to analyze the legacy applications in terms of identifying the actual lines of code for the modernization issues as well as estimating time and effort for the modernization project.
 
