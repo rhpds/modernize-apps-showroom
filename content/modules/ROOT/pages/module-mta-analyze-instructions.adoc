@@ -23,7 +23,7 @@ The user experience in MTA 7 revolves around the **Application Inventory**, allo
 
 The inventory also offers seamless integration with other tools, like the https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/7.0/html/user_interface_guide/assessing-and-analyzing-applications#mta-assessment-changes-700_user-interface-guide[Assessment^] and https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/7.0/html/user_interface_guide/assessing-and-analyzing-applications#analyzing-an-application_user-interface-guide[Analysis^] modules, to surface information about the portfolio at scale.
 
-== 2.1. Application Profile
+=== 2.1. Application Profile
 
 As the portfolio goes through the different processes available in the tool, surfaced information will be stored individually in each application profile. That includes metrics such as risk level and effort required to migrate, and precise data about issues that need to be solved and the application's technology stack.
 
@@ -39,7 +39,7 @@ image::mta-analyze/mta-inventory-profile-tags.png[inventory]
 
 Since the _Customers_ application is a Spring application running on top of a Tomcat server, we have added tags that represent the application technology stack, like _Java_, _Tomcat_ and some _Spring_ components. There's also an additional custom tag representing the usage of a custom corporate configuration library. This should be something to be taken into account, as configuration is one of the key concerns when onboarding an application into the Cloud.
 
-== 2.2. Archetypes
+=== 2.2. Archetypes
 
 When dealing with applications at scale, a more sophisticated way of grouping applications together might be required to manage large portfolios effectively. **Archetypes** allow exactly that by automatically classifying applications based on their tag taxonomy. At the same time, applications associated with an archetype inherit some of their features such as additional tags or assessment data.
 
@@ -63,13 +63,13 @@ Given the association, the application should have inherited the Archetype tags 
 
 image::mta-analyze/mta-archetypes-inventory-customers-tags.png[inventory]
 
-== 2.3. Controls
+=== 2.3. Controls
 
 *Controls* are a collection of entities that are used to surface information about applications in the inventory. They comprise _business services_, _stakeholders_, _stakeholder groups_, _job functions_, _tag types_, and _tags_.
 
 These controls provide useful metadata about the relationships between applications and their business stakeholders, and can be used to optimize a modernization plan across a portfolio.
 
-=== 2.3.1 Stakeholders
+==== 2.3.1 Stakeholders
 
 Go to `Controls` on the left menu and you will see existing _Stakeholders_ such as *Borja Cavan* and *Brendon Hayes*.
 
@@ -79,7 +79,7 @@ You can also find the existing _Stakeholder groups_ such as *IT Management* and 
 
 image::mta-analyze/mta-stakeholder-groups.png[stakeholder-groups]
 
-=== 2.3.2 Business services
+==== 2.3.2 Business services
 
 The simplest way to classify applications is through business services that represent the different business verticals or divisions that an organization might have.
 
@@ -182,17 +182,15 @@ As discussed before, applications associated to an archetype will inherit some o
 
 image::mta-analyze/mta-complete-review.png[complete-review]
 
-At this point you have completed the 2nd assessment to update the `Application cross-cutting concerns` section. You have also identified a new `high` risk along with the external configuration references and dependencies.
-
-image::mta-analyze/complete-review.png[complete-review]
-
 Now click on the _Review_ tab from the _Application Profile_. As you can see, the values we assigned in the review for the _Summer Framework_ archetype have been inherited by the _Customers_ application.
 
-Go to `Report` on the left menu. There you will be able to access the report details such as _Current landscape_, _Adoption candidate distribution_, _Suggested adoption plan_, and _Identified risks_.
+image::mta-analyze/mta-complete-review-values.png[complete-review]
 
-image::mta-analyze/report-review.png[report-review]
+To see an aggregated view of assessment data across the entire portfolio, go to the `Report` option on the left menu.
 
-*Congratulations!* You have now successfully begun the modernization process by assessing the _Summer Framework_ archetype and you identified issues and risks that will need to be considered in the next step: application analysis and code modification as part of modernization.
+image::mta-analyze/mta-report-review.png[report-review]
+
+*Congratulations!* You have now successfully begun the modernization process by assessing the _Summer Framework_ archetype, and you identified issues and risks that will need to be considered in the next step: application analysis and code modification as part of modernization.
 
 Read more about use cases and migration paths at https://developers.redhat.com/products/mta/use-cases[Migration Toolkit for Applications^].
 
@@ -206,23 +204,23 @@ The goal of this exercise is to analyze the _Customers_ application by scanning 
 
 MTA _Analysis_ is used by organizations for:
 
-* Planning and work estimation
-* Identifying migration issues and providing solutions
-* Detailed reporting
+* Planning and work estimation.
+* Identifying migration issues and providing solutions.
+* Detailed reporting.
 
 And has several capabilities such as:
 
-* Built-in rules and migration paths
-* Rule extensibility and customization
-* Ability to analyze source code or application archives
+* Built-in rules and migration paths.
+* Rule extensibility and customization.
+* Ability to analyze source code or application archives.
 
 Read more about it in the https://access.redhat.com/documentation/en-us/migration_toolkit_for_applications/7.0/html-single/introduction_to_the_migration_toolkit_for_applications/index#new-mta-features_getting-started-guide[MTA Features]
 
-== 4.1. Analyze Customers Application using MTA
+=== 4.1. Analyze Customers Application using MTA
 
 First, you need to configure *Git repositories* to refer to your link:{gitea_console_url}/{gitea_user}/modern-app-dev[Gitea repository^] when you analyze your inventory and applications using MTA.
 
-In *Administration* view, select *Repositories > Git*. `Toggle` the *Consume insecure Git repositories* switch to the right.
+In the *Administration* perspective, select *Repositories > Git*. `Toggle` the *Consume insecure Git repositories* switch to the right.
 
 image::mta-analyze/mta-admin-git.png[admin git]
 
@@ -234,54 +232,58 @@ You can also log in to the Gitea repository with the following credentials.
 * Password - `{gitea_password}`
 ====
 
-Go back to the `Application inventory` page in the *Migration* perspective. Click on pencil (edit) icon for the customers inventory.
+Go back to the `Application inventory` page in the *Migration* perspective. Click on pencil (edit) icon for the `Customers` application.
 
 Update application with the following source code information.
 
 * Repository type - `Git`
 * Source Repository - `{gitea_console_url}/{gitea_user}/modern-app-dev.git`
 * Branch - `patch-postgres`
-* Root path - `package-legacy`
+* Root path - `customers-tomcat-legacy`
 
-image::mta-analyze/application-update-git.png[application-update-git]
+image::mta-analyze/mta-application-update-git.png[application-update-git]
 
-Select `Save`.
+Click on `Save`. Your application is now updated and pointing to the Gitea repository from your cluster.
 
-Select the `Analysis` tab. When you click on the `Customers` application, `Analyze` button will be enabled. Then, click on *Analyze*.
+Select the `Customers` application with the selector checkbox on the left of the application row. The `Analyze` button on the table header will become enabled, so click on it now.
 
-image::mta-analyze/application-analysis.png[application-analysis]
+image::mta-analyze/mta-application-analysis.png[application-analysis]
 
-=== 2.2. Analysis mode
+=== 4.2. Analysis mode
 
-Select `Source code` in Analysis mode popup.
+Select `Source code` in Analysis mode popup. This will automatically retrieve the source code for the `Customers` application from the repository you specified before and use it for analysis.
 
-image::mta-analyze/add-applications.png[Add applications]
+image::mta-analyze/mta-application-analysis-mode.png[Analysis mode]
 
 Click on `Next`.
 
-=== 2.3. Set targets
+==== 4.3. Set targets
 
 You will now be presented with options for transformation targets. Here we will select several targets based on the technologies we are moving to:
 
-Since this is going to be a linux container, it makes sense to do a sanity check to avoid things like Windows filesystem paths and other non-container- or non-Linux-friendly issues. We also going to investigate removing our reliance on a proprietary JDK distribution, so we going to select OpenJDK as a target.
+We want to deploy our application on OpenShift, so we would select the Containerization path. Also, to make sure we can use the supported OpenJDK images without surprises, we select the OracleJDK to OpenJDK path as well. Finally, since we are moving towards linux containers, it makes sense to do a sanity check to avoid any Windows paths that might remain on the code from previous iterations.
 
-Click on `Containers`, `Linux`, and `OpenJDK` as the targets.
+Click on `Containerization`, `Linux`, and `OpenJDK` as the targets.
 
-image::mta-analyze/configure-analysis-checked.png[Configure Analysis]
-
-Click on `Next`.
-
-Select `Application and internal dependencies only` for the scope of dependencies.
+image::mta-analyze/mta-application-analysis-targets.png[Analysis targets]
 
 Click on `Next`.
 
-=== 2.4. Advanced
+==== 4.4. Scope
 
-You will now be presented with options for custom rules.
+Users can stick to the application and its internals dependencies only or force the analysis of all libraries, including known Open Source Libraries. Advanced users that have interest only for certain packages can specify them directly as well. For our case, we will stick with the first option.
 
-image::mta-analyze/custom-rules.png[Custom rules]
+Select `Application and internal dependencies only` and click on `Next`.
 
-MTA Analysis uses a custom rule engine for the analysis. It comes with many rules out of the box to support the different migration paths, but it can be extended. Custom rules can be developed with a very simple XML syntax and used as part of the analysis. We've provided some custom rules which will detect the usage of a specific library that we know has been used at Globex in the past and make suggestions for changes to be performed to remove it.
+image::mta-analyze/mta-application-analysis-scope.png[Analysis scope]
+
+=== 4.5. Custom rules
+
+MTA uses an extensible rules engine that looks for antipatterns in order to find what should be changed for the application to run in the target platform. In order to remove the problematic configuration library, we developed a custom rule that looks for any usage of the library and suggests the changes to be performed to replace it with a more Cloud Friendly alternative. To use the rule, we only have to upload the file containing it during this step of the configuration.
+
+image::mta-analyze/mta-application-analysis-custom-rules.png[Custom rules]
+
+Custom rules can be developed with a very simple YAML syntax and used as part of the analysis. We've provided some custom rules which will detect the usage of a specific library that we know has been used at Globex in the past and make suggestions for changes to be performed to remove it.
 
 Select `Repository` tab to refer to a custom rule (`corporate-framework-config.windup.xml`) in the *customrules* directory of your Gitea repository.
 
@@ -298,43 +300,52 @@ Key in the following information in the repository page.
 In case you don't see `None` in the `Associated credentials`, please leave it since the field is not mandatory.
 ====
 
-image::mta-analyze/add-repository-customrules.png[add-repository-customrules]
+image::mta-analyze/mta-application-analysis-custom-rules-add-repo.png[add-repository-customrules]
 
 Click on `Next`.
 
+=== 4.6. Advanced options and execution
+
 Next, you will be presented with options to fine tune the analysis. For now we will stick with the default options.
 
-image::mta-analyze/fine-tune.png[Fine tuning]
+image::mta-analyze/mta-application-analysis-advanced.png[Advanced]
 
 Click on `Next`.
 
 Lastly, we are presented with a summary of the configuration for our analysis.
 
-image::mta-analyze/finish-project.png[Finish project]
+image::mta-analyze/mta-application-analysis-review.png[Review]
 
-Click on `Run`.
+Click on `Run`. This will get the analysis on the `Scheduled` status while the MTA tasking system requests OpenShift for resources to allocate the analysis pod. MTA fully leverages the resource management capabilities of OpenShift to scale the analysis based on the available resources on the project in which it has been deployed. Individual analysis pods for each application are be created (one in our case), and the analysis runs as soon as there are available resources.
 
-The analysis begins, and once it is finished you will be able to access the reports. Stay on this view until the analysis is finished.
-
-Once it finishes, select *Customers* application. Then click on `Report` in the *Reports* tab on the right.
+image::mta-analyze/mta-application-analysis-scheduled.png[Analysis scheduled]
 
 [NOTE]
 ====
-The analysis may take a few minutes as it must pull container images for Windup before executing the analysis.
+The analysis may take a few minutes to start as it must pull container images for the analyzer engine before executing.
 ====
 
-image::mta-analyze/active-analysis.png[Active analysis]
+Once the image is pulled and the analyzer pod is running, the analysis will change its status to `In Progress`. The application source code is now being analyzed, which could take some additional minutes depending on the workload on the cluster.  When the analysis finishes, the status will change to `Completed`.
 
-== 2.5. Understanding the report
 
-The Dashboard gives an overview of the entire application migration effort. It summarizes:
+== 5. Understanding the analysis results
 
-* The incidents and story points by category
-* The incidents and story points by level of effort of the suggested changes
-* The incidents by package
+Application analysis provides insights on several aspects of the application itself, that can be accessed through its _Application Profile_. Once the analysis is finished (the `Completed` status can be seen in the _Analysis_ column), click on the `Customers` application to open its _Application Profile_.
+
+=== 5.1. Effort
 
 [NOTE]
 Story points are an abstract metric commonly used in Agile software development to estimate the relative level of effort needed to implement a feature or change. Migration Toolkit for Application uses story points to express the level of effort needed to migrate particular application constructs, and the application as a whole. The level of effort will vary greatly depending on the size and complexity of the application(s) to migrate.
+
+=== 5.2. Technology stack
+
+The first and most straightforward insight the analysis outputs would be identifying the technology stack and associating it to the _Application Profile_ as tags, so that information can later be leveraged to automatically assign archetypes across the portfolio.
+
+Click on the _Tags_ tab to browse the tags associated with the `Customers` application. Notice that this tab now shows way more tags than what we saw when we first browsed them when we were introducing the _Application Profile_ concept. These tags have been automatically applied by the analyzer engine based on the technologies it was able to identify while running the analysis. To see which tags were specifically applied by the analyzer, click on the `Source`filter under _Filter by_ and select `Analysis`.
+
+image::mta-analyze/mta-application-analysis-tags.png[Analysis tags]
+
+
 
 Once the report is finished, click on the link to access the report. Click on `customers-tomcat.war` application.
 
