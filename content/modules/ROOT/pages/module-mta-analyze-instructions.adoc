@@ -334,55 +334,66 @@ Application analysis provides insights on several aspects of the application its
 
 === 5.1. Effort
 
-[NOTE]
-Story points are an abstract metric commonly used in Agile software development to estimate the relative level of effort needed to implement a feature or change. Migration Toolkit for Application uses story points to express the level of effort needed to migrate particular application constructs, and the application as a whole. The level of effort will vary greatly depending on the size and complexity of the application(s) to migrate.
+MTA helps you determine the effort required to migrate a certain application by aggregating the individual effort for each issue occurrence found in the source code. Effort is expressed in Story Points, which are an abstract metric commonly used in Agile software development to estimate the relative level of effort needed to implement a feature or change. Migration Toolkit for Application uses story points to express the level of effort needed to migrate particular application constructs, and the application as a whole. There is not a direct translation between story points and work hours, since each organization has different teams and skills, but they provide a comparative way to understand how complex migrating an application can be. The level of effort will vary greatly depending on the size and complexity of the application(s) to migrate. Once an application has been analyzed, the `Effort` metric will be available as a column in the _Application Inventory_ table and in the application profile.
+
+image::mta-analyze/mta-application-analysis-effort.png[Effort]
+
 
 === 5.2. Technology stack
 
 The first and most straightforward insight the analysis outputs would be identifying the technology stack and associating it to the _Application Profile_ as tags, so that information can later be leveraged to automatically assign archetypes across the portfolio.
 
-Click on the _Tags_ tab to browse the tags associated with the `Customers` application. Notice that this tab now shows way more tags than what we saw when we first browsed them when we were introducing the _Application Profile_ concept. These tags have been automatically applied by the analyzer engine based on the technologies it was able to identify while running the analysis. To see which tags were specifically applied by the analyzer, click on the `Source`filter under _Filter by_ and select `Analysis`.
+Click on the _Tags_ tab to browse the tags associated with the `Customers` application. Notice that this tab now shows way more tags than what we saw when we first browsed them when we were introducing the _Application Profile_ concept. These tags have been automatically applied by the analyzer engine based on the technologies it was able to identify while running the analysis. To see which tags were specifically applied by the analyzer, click on the `Source` filter under _Filter by_ and select `Analysis`.
 
 image::mta-analyze/mta-application-analysis-tags.png[Analysis tags]
 
 
+=== 5.3. Issues
 
-Once the report is finished, click on the link to access the report. Click on `customers-tomcat.war` application.
+In the MTA jargon, `Issues` are antipatterns found in applications that might prevent them from running in a given platform. As with Dependencies, MTA allows browsing issues individually on a per application basis or globally at portfolio level, allowing users to focus on certain applications or identify trends across the entire application portfolio respectively. A shortcut to the issues of a given application can be found on the details tab from the _Application Profile_.
 
-image::mta-analyze/report-view.png[View report]
+Click on the `Customers` application to open the _Application Profile_ and then click on `Issues`. That will navigate to the `Single Application` tab from the `Issues` view with filters preapplied to display all the issues from the `Customers` application:
 
-The reports provide all kinds of information about the application, like the technologies it uses, dependencies, but most importantly issues that need to get fixed.
+image::mta-analyze/mta-application-analysis-issues.png[Issues]
 
-image::mta-analyze/report-dashboard.png[report dashboard]
+The list includes direct access the usage of hardcoded IPs, which is aligned with our findings during the assessment. It appears that the custom rule we specified before got triggered as well. If we click on an issue, we get more information about it, including code snippets, links to external information and the list of affected files.
 
-Click on the `Issues` tab.
+Expand the `Hardcoded IP Address` row from the `Issues` table and click on `Affected Files`:
 
-This view shows us the list of issues that could prevent an application to successfully run on the target runtime. We can see that the application has a few mandatory issues that need to be addressed.
+image::mta-analyze/mta-application-analysis-issues-ip-files.png[Issues]
 
-Click on `Hard coded IP address`.
+This gives you the list of affected files for this problem. Click on the first one and a modal window will open with further details, including the exact code snippet in which the issue was found, alongside an explanation of how to solve it:
 
-By choosing the issue we can see where it was detected and view a hint on how to solve it.  It looks like the config files are pointing to some static IPs. That's not good in a cloud / container environment!
+image::mta-analyze/mta-application-analysis-issues-ip-snippet.png[Issues]
 
-image::mta-analyze/report-hint.png[report hint]
+The analyzer has indeed found a static IP, but this comes from a properties file, so shouldn't be considered that much of an issue if for example the database, which is the asset being accessed here, remains outside of OpenShift in its original location. Close the modal window and the `Affected Files` drawer.
 
-Click on `File system issue`.
+Now expand the `Legacy configuration with io.konveyor.demo.config.ApplicationConfiguration` row. This corresponds to the triggering of the custom rule that looks for the usage of the custom corporate configuration library. Click on `View affected files` to learn more about how widespread the usage of that library is:
 
-It looks like a problem has been detected on some class coming from the config library. We are analyzing the binary, so the dependencies have been analyzed as well.
+image::mta-analyze/mta-application-analysis-issues-config-files.png[Issues]
 
-image::mta-analyze/report-hint-fs.png[report hint file system]
+Only the `PersistenceConfig` class seems to be affected by the issue. Click on it to know more:
 
-Click on `Legacy configuration issue`.
+image::mta-analyze/mta-application-analysis-issues-config-snippet1.png[Issues]
 
-It looks like the custom rule got triggered and found some issues with the source code.  This rule detects the use of a custom configuration library and gives some hints about what needs to be done to fix it.
+Looks like two occurrences of the same issue have been found in the file, click on the incident tabs from the modal window to alternate between them:
 
-image::mta-analyze/report-hint-custom.png[report hint custom rule]
+image::mta-analyze/mta-application-analysis-issues-config-snippet2.png[Issues]
 
-Click on the `io.konveyor.demo.ordermanagement.config.PersistenceConfig` file.
+This means that the analyzer has found the `ApplicationConfiguration` class from the custom configuration library being used twice in the `PersistenceConfig` class. We'll have to replace that with something more standard, following the guidelines provided by the hints in the usage. This is something we'll tackle in the next module. For the moment close all modals and head back to the _Application Inventory_ view.
 
-image::mta-analyze/report-code.png[report code]
+=== 5.4. Dependencies
 
-You can now see exactly where the issue is located in the source code.
+The analysis in MTA also gathers detailed information about dependencies used by applications in the portfolio. To get a list of the dependencies for the `Customers` application, open its _Application Profile_ and click on the `Dependencies` link from the `Details` tab. This will navigate to the `Dependencies` view with the filter for the `Customers` application preapplied:
+
+image::mta-analyze/mta-application-analysis-dependencies.png[Issues]
+
+Clicking on a dependency will provide additional details about how its relationship with each application in the portfolio that relies on it, including:
+
+* Version of the dependency, with a link to Maven Central.
+* Management relationship, indicating whether the dependency is managed by a dependency manager like Maven or it was simply found embedded in a binary.
+* Relationship, which defines whether the dependency is direct or transitive.
 
 == Summary
 
-You have now successfully analyzed the legacy application to learn what migration issues you have. You'll refactor the application to fix the issues in the next module. Then, you'll deploy the modernized application to Red Hat OpenShift. Let's go!
+You have now successfully analyzed the legacy application to learn what potential issues you have. You'll refactor the application to fix the issues in the next module. Then, you'll deploy the modernized application on Red Hat OpenShift. Let's go!
