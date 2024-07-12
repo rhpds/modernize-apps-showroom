@@ -368,7 +368,7 @@ image::mta-analyze/mta-application-analysis-issues-ip-snippet.png[Issues]
 
 The analyzer has indeed found a static IP, but this comes from a properties file, so shouldn't be considered that much of an issue if for example the database, which is the asset being accessed here, remains outside of OpenShift in its original location. Close the modal window and the `Affected Files` drawer.
 
-Now expand the `Legacy configuration with io.konveyor.demo.config.ApplicationConfiguration` row. This corresponds to the triggering of the custom rule that looks for the usage of the custom corporate configuration library. Click on `View affected files` to learn more about how widespread the usage of that library is:
+Now expand the `File System - Java IO` row. This corresponds to the triggering of the custom rule that looks for the usage of the custom corporate configuration library. Click on `View affected files` to learn more about how widespread the usage of that library is:
 
 image::mta-analyze/mta-application-analysis-issues-config-files.png[Issues]
 
@@ -386,7 +386,7 @@ This means that the analyzer has found the `ApplicationConfiguration` class from
 
 The analysis in MTA also gathers detailed information about dependencies used by applications in the portfolio. To get a list of the dependencies for the `Customers` application, open its _Application Profile_ and click on the `Dependencies` link from the `Details` tab. This will navigate to the `Dependencies` view with the filter for the `Customers` application preapplied:
 
-image::mta-analyze/mta-application-analysis-dependencies.png[Issues]
+image::mta-analyze/mta-application-analysis-dependencies.png[Dependencies]
 
 Clicking on a dependency will provide additional details about how its relationship with each application in the portfolio that relies on it, including:
 

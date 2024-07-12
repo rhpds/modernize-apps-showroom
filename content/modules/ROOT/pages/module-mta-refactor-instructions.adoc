@@ -240,8 +240,7 @@ Fill in the following fields, and click `Create`:
 * Name: `New Customers`
 * Description: `Modernized Customers management service`
 * Business service: `Retail`
-* Tags: `Java`, `Tomcat`, `Spring Boot`, `RHEL 8`, `Postgresql`
-
+* Tags: `3rd party / Spring Boot`, `Database / PostgreSQL`, `Language / Java`, `Operating System / RHEL 8`, `Runtime / Tomcat`
 * Source code:
 ** Repository type - `Git`
 ** Source Repository - `{gitea_console_url}/{gitea_user}/modern-app-dev`
@@ -266,7 +265,7 @@ You can also log in to the Gitea repository with the following credentials.
 * Password - `{gitea_password}`
 ====
 
-Select `Source dode` in Analysis mode popup.
+Select `Source code` in Analysis mode popup.
 
 image::mta-refactor/add-applications.png[Add applications]
 
