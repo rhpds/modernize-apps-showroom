@@ -1,11 +1,9 @@
 = {lab_name}
 
-The `Migration Toolkit for Applications` Workshop is the premier hands-on experience for developers, operations, and business leaders to learn how Red Hat's technologies help them analyze and move their applications to the Hybrid Cloud.
+`Migration Toolkit for Applications` is the ultimate Open Source toolkit to help organizations safely migrate and modernize their application portfolio to leverage OpenShift and other Red Hat technologies, providing differential value on each stage of the adoption process.
 
-This workshop consists of a number different modules, each highlighting a particular use case, development principle or technology. The modules have a common overarching story, revolving around the e-commerce site of a fictitious retail company called Globex.
+The goal for the tool is to provide as much insight as possible for the adoption leads to make informed decisions and give migrators guidance and some degree of automation for the adaptations that might be required on applications.
 
-Globex has undergone significant modernization and they are keen to build on their application (called `coolstore`) modernization efforts to rapidly build new functionalities. The workshop helps you navigate through each of these functionalities through a number of modules focusing on one particular use case.
+The rationale behind the approach of the tools is very straightforward: reduce risks and make the migration and modernization process measurable and predictable.
 
-The workshop allows you to quickly pick a set of `opinionated custom paths` through the modules based on high-level needs, and then customize it to suit, or create a completely custom path of their own. Over time, we can use the popularity of choices made by the field to refine the options presented.
-
-* The `instructions` provide details step-by-step details to guide you through the workshop.
+In this lab we will learn the essentials of MTA by assessing and analyzing the current application portfolio from an organization and identifying potential issues and risks for implementing advanced cloud-native architectures with application modernization.

@@ -5,7 +5,7 @@
 
 As part of the digital transformation and cloud adoption initiative of a large organization, the _Development_ and _DevOps_ teams embarked upon a journey to modernize their existing siloed services running on virtual machines.
 
-The goal of this lab is to assess and analyze the current application portfolio and identify potential issues and risks to implementing advanced cloud-native architectures with application modernization.
+The goal of this lab is to assess and analyze the current application portfolio and identify potential issues and risks for implementing advanced cloud-native architectures with application modernization.
 
 == 2. Introduction to Migration Toolkit for Applications
 
