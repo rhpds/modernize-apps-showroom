@@ -404,4 +404,4 @@ Clicking on a dependency will provide additional details about how its relations
 
 == Summary
 
-You have now successfully analyzed the legacy application to learn what potential issues you have. You'll refactor the application to fix the issues in the next module. Then, you'll deploy the modernized application on Red Hat OpenShift. Let's go!
+You have now successfully analyzed the legacy application to gather insight about technologies, dependencies and potential issues that need to be addressed for the application to run in OpenShift.
