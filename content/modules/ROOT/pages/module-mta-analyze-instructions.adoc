@@ -3,7 +3,7 @@
 
 == 1. Goals of this lab
 
-As part of the digital transformation and cloud adoption initiative of a large organization, the development and devops teams embarked upon a journey to modernize their existing siloed services running on virtual machines.
+As part of the digital transformation and cloud adoption initiative of a large organization, the _Development_ and _DevOps_ teams embarked upon a journey to modernize their existing siloed services running on virtual machines.
 
 The goal of this lab is to assess and analyze the current application portfolio and identify potential issues and risks to implementing advanced cloud-native architectures with application modernization.
 
@@ -238,14 +238,22 @@ Update application with the following source code information.
 
 * Repository type - `Git`
 * Source Repository - `{gitea_console_url}/{gitea_user}/modern-app-dev.git`
-* Branch - `patch-postgres`
+* Branch - `mta-lab`
 * Root path - `customers-tomcat-legacy`
 
 image::mta-analyze/mta-application-update-git.png[application-update-git]
 
 Click on `Save`. Your application is now updated and pointing to the Gitea repository from your cluster.
 
-Select the `Customers` application with the selector checkbox on the left of the application row. The `Analyze` button on the table header will become enabled, so click on it now.
+After the changes have been saved, you will notice that the left icon on the application row from the inventory table has changed. When MTA has enough information about where the source or binaries for an application are stored, it attempts to run discovery to learn more about the language and the technology stack used to build the application. If you hover over the icon, you will see the current status of the discovery tasks.
+
+image::mta-analyze/mta-application-discovery.png[application-discovery]
+
+Discovery shouldn't take more than a couple minutes for the Customers application. Wait until it finishes and then click on the _Tags_ tab from the _Application Profile_ and then click on the `Source` filter under _Filter by_ and select _Language-discovery_ and _Tech-discovery_ to see the tags that were automatically added by discovery.
+
+image::mta-analyze/mta-application-discovery-tags.png[application-discovery]
+
+Let's now continue with the analysis of our application. Select the `Customers` application with the selector checkbox on the left of the application row. The `Analyze` button on the table header will become enabled, so click on it now.
 
 image::mta-analyze/mta-application-analysis.png[application-analysis]
 
@@ -263,7 +271,7 @@ You will now be presented with options for transformation targets. Here we will 
 
 We want to deploy our application on OpenShift, so we would select the Containerization path. Also, to make sure we can use the supported OpenJDK images without surprises, we select the OracleJDK to OpenJDK path as well. Finally, since we are moving towards linux containers, it makes sense to do a sanity check to avoid any Windows paths that might remain on the code from previous iterations.
 
-Click on `Containerization`, `Linux`, and `OpenJDK` as the targets.
+Click on `Containerization`, `Linux`, and `OracleJDK to OpenJDK` as the targets.
 
 image::mta-analyze/mta-application-analysis-targets.png[Analysis targets]
 
@@ -279,25 +287,25 @@ image::mta-analyze/mta-application-analysis-scope.png[Analysis scope]
 
 === 4.5. Custom rules
 
-MTA uses an extensible rules engine that looks for antipatterns in order to find what should be changed for the application to run in the target platform. In order to remove the problematic configuration library, we developed a custom rule that looks for any usage of the library and suggests the changes to be performed to replace it with a more Cloud Friendly alternative. To use the rule, we only have to upload the file containing it during this step of the configuration.
+MTA uses an extensible rules engine that looks for antipatterns in order to find what should be changed for the application to run in the target platform. In order to remove the problematic configuration library, we developed a custom rule that looks for any usage of the library and suggests the changes to be performed to replace it with a more Cloud Friendly alternative. To use the rule, we only have to either upload the file containing it or point to a repository during this step of the configuration.
 
 image::mta-analyze/mta-application-analysis-custom-rules.png[Custom rules]
 
-Custom rules can be developed with a very simple YAML syntax and used as part of the analysis. We've provided some custom rules which will detect the usage of a specific library that we know has been used at Globex in the past and make suggestions for changes to be performed to remove it.
+Custom rules can be developed with a very simple YAML syntax and used as part of the analysis. We've provided some custom rules which will detect the usage of a specific library that we know has been used at the organization in the past and make suggestions for changes to be performed to remove it.
 
-Select `Repository` tab to refer to a custom rule (`corporate-framework-config.windup.xml`) in the *customrules* directory of your Gitea repository.
+Select `Repository` tab to refer to a custom ruleset in the *customrules* directory of your Gitea repository.
 
 Key in the following information in the repository page.
 
 * Repository type - `Git`
 * Source Repository - `{gitea_console_url}/{gitea_user}/modern-app-dev.git`
-* Branch - `patch-postgres`
+* Branch - `mta-lab`
 * Root path - `customrules`
 * Associated credentials - `None`
 
 [NOTE]
 ====
-In case you don't see `None` in the `Associated credentials`, please leave it since the field is not mandatory.
+In case you don't see `None` in the `Associated credentials`, please leave it blank since the field is not mandatory.
 ====
 
 image::mta-analyze/mta-application-analysis-custom-rules-add-repo.png[add-repository-customrules]
@@ -368,7 +376,7 @@ image::mta-analyze/mta-application-analysis-issues-ip-snippet.png[Issues]
 
 The analyzer has indeed found a static IP, but this comes from a properties file, so shouldn't be considered that much of an issue if for example the database, which is the asset being accessed here, remains outside of OpenShift in its original location. Close the modal window and the `Affected Files` drawer.
 
-Now expand the `File System - Java IO` row. This corresponds to the triggering of the custom rule that looks for the usage of the custom corporate configuration library. Click on `View affected files` to learn more about how widespread the usage of that library is:
+Now expand the `Legacy configuration with io.konveyor.demo.config.ApplicationConfiguration` row. This corresponds to the triggering of the custom rule that looks for the usage of the custom corporate configuration library. Click on `View affected files` to learn more about how widespread the usage of that library is:
 
 image::mta-analyze/mta-application-analysis-issues-config-files.png[Issues]
 
