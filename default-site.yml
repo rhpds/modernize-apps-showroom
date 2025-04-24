@@ -1,6 +1,6 @@
 ---
 site:
-  title: Migration Toolkit for Applications
+  title: Modernize your applications at scale to use Red Hat OpenShift
   start_page: modules::index.adoc
 
 content:
